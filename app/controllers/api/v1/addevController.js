@@ -5,10 +5,9 @@ const jwtAuth = require("./authenticationController");
 
 class addevController {
   static async register(req, res) {
-    const username = req.body.username;
+    const {username, is_super} = req.body;
     const email = req.body.email.toLowerCase();
     const password = await jwtAuth.encryptPassword(req.body.password);
-    const notSuper = false;
 
     /**  check email is used before or not */
     const notAvail = await addevService.findByEmail(email);
@@ -22,13 +21,14 @@ class addevController {
 
     /** add email if not exists */
     addevService
-      .create({ username, email, password,  notSuper })
+      .create({ username, email, password,  is_super })
       .then(async ({ id, username, email }) => {
         const User = await addevs.findOne({
           where: { email },
         });
         res.status(201).json({
-          data: { id, username, email, registeredVia, is_super },
+          status: "OK",
+          data: { id, username, email, is_super },
         });
       })
       .catch((err) => {
@@ -142,7 +142,7 @@ class addevController {
         return;
       }
 
-      const allUser = addevService.listUsers();
+      const allUser = await addevService.listUsers();
 
       if (allUser == null || allUser == undefined) {
         res.status(401).json({
@@ -152,7 +152,7 @@ class addevController {
         return;
       }
 
-      // console.log(allUser)
+      console.log(allUser)
 
       res.status(201).json({
         status: "OK",

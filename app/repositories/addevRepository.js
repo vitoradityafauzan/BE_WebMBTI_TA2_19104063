@@ -15,5 +15,10 @@ module.exports = {
 
   repoGetAllUser() {
     return users.findAll();;
-  }
+  },
+
+  repoCreate(createArgs) {
+    console.log(`\n ${JSON.stringify(createArgs)} \n`)
+      return addevs.create(createArgs);
+  },
 };

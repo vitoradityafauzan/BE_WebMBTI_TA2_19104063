@@ -8,4 +8,9 @@ module.exports = {
   findByPK(pk) {
     return userRepo.repoFindPK(pk);
   },
+
+  create(reqBody) {
+    console.log(`\n ${JSON.stringify(reqBody)} \n`);
+    return userRepo.repoCreate(reqBody)
+  },
 };

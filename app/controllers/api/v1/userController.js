@@ -43,7 +43,7 @@ class userController {
 
     // const password = await encryptPassword(req.body.password);
     const password = await jwtAuth.encryptPassword(req.body.password);
-    const registeredVia = "website";
+    const registeredvia = "website";
     const gambar = "";
 
     /**  check email is used before or not */
@@ -58,12 +58,13 @@ class userController {
 
     /** add email if not exists */
     userService
-      .create({ username, email, password, registeredVia, gambar })
-      .then(async ({ id, username, email }) => {
+      .create({ username, email, password, registeredvia, gambar })
+      .then(async ({ id, username, email, registeredVia }) => {
         const User = await users.findOne({
           where: { email },
         });
         res.status(201).json({
+          status: "OK",
           data: { id, username, email, registeredVia },
         });
       })

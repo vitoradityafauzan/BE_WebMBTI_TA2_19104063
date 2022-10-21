@@ -12,4 +12,9 @@ module.exports = {
   listUsers() {
     return addevRepo.repoGetAllUser();
   },
+
+  create(reqBody) {
+    console.log(`\n ${JSON.stringify(reqBody)} \n`);
+    return addevRepo.repoCreate(reqBody)
+  },
 };

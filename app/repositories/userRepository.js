@@ -12,4 +12,13 @@ module.exports = {
       where: { id },
     });
   },
+
+  repoCreate(createArgs) {
+    try {
+      console.log(`\n ${JSON.stringify(createArgs)} \n`)
+      return users.create(createArgs);
+    }catch (err) {
+      return err.message
+    }
+  },
 };

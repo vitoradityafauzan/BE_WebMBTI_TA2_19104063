@@ -36,6 +36,11 @@ apiRouter.post(
 )
 
 apiRouter.post(
+  '/add3v/s/e/c/r/e/t/regis',
+  controllers.api.v1.addevController.register,
+)
+
+apiRouter.post(
   '/add3v/v1/login',
   controllers.api.v1.addevController.login,
 )
