@@ -11,6 +11,10 @@ module.exports = (sequelize, DataTypes) => {
      */
     static associate(models) {
       // define association here
+      mbti_answers.hasMany(models.users_test_answers, { foreignKey: 'code_a' })
+
+      mbti_answers.belongsTo(models.mbti_question, { foreignKey: 'code_q' })
+      mbti_answers.belongsTo(models.characteristic, { foreignKey: 'code_c' })
     }
   }
   mbti_answers.init({

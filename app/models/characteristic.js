@@ -11,6 +11,7 @@ module.exports = (sequelize, DataTypes) => {
      */
     static associate(models) {
       // define association here
+      characteristic.hasMany(models.mbti_answers, { foreignKey: 'code_c' })
     }
   }
   characteristic.init({

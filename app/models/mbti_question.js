@@ -11,6 +11,7 @@ module.exports = (sequelize, DataTypes) => {
      */
     static associate(models) {
       // define association here
+      mbti_question.hasMany(models.mbti_answers, { foreignKey: 'code_q' })
     }
   }
   mbti_question.init({

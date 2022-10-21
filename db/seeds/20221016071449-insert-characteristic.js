@@ -1,5 +1,7 @@
 'use strict';
 
+const { Op } = require("sequelize");
+
 const charNames = [
   "Introvert",
   "Ekstrovert",
@@ -56,6 +58,6 @@ module.exports = {
      * Example:
      * await queryInterface.bulkDelete('People', null, {});
      */
-     await queryInterface.bulkDelete('characteristics', null, {});
+     await queryInterface.bulkDelete('characteristics', { char_type: { [Op.in]: charNames } }, {});
   }
 };

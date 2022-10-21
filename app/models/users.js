@@ -11,10 +11,10 @@ module.exports = (sequelize, DataTypes) => {
      */
     static associate(models) {
       // define association here
+      users.hasMany(models.users_test_answers, { foreignKey: 'id_user' })
     }
   }
   users.init({
-    id: DataTypes.INTEGER,
     username: DataTypes.STRING,
     email: DataTypes.STRING,
     password: DataTypes.STRING,
