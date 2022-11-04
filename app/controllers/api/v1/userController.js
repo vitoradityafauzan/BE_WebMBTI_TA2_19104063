@@ -3,6 +3,7 @@ const jwt = require("jsonwebtoken");
 const { users } = require("../../../models");
 const userService = require("../../../services/userService")
 const jwtAuth = require("./authenticationController")
+// const axios = require('axios')
 //const Salt = 10;
  
 /* Create token function */
@@ -38,23 +39,45 @@ function checkPassword(encryptedPassword, password) {
 
 class userController {
   static async register(req, res) {
+    console.log('REGISTER runs')
     const username = req.body.username;
     const email = req.body.email.toLowerCase();
 
     // const password = await encryptPassword(req.body.password);
+
+    if (req.body.password == undefined || req.body.password == null ||req.body.password == "") {
+      return res.status(422).json({
+        status: "FAILED",
+        message: "password is empty !",
+      });
+      
+    }
+
     const password = await jwtAuth.encryptPassword(req.body.password);
     const registeredvia = "website";
     const gambar = "";
 
-    /**  check email is used before or not */
-    const notAvail = await userService.findByEmail(email);
+    // console.log('isi req body eiam, '+req.body.email.toLowerCase()+` , ${email}`);
 
-    if (notAvail) {
+    /**  check email is used before or not */
+    /* const notAvail = await userService.findByEmail(req.body.email.toLowerCase()); */
+    
+    const notAvail = await users.findOne({
+      where: { email },
+    });
+
+    // console.log(notAvail);
+
+    if (notAvail == true || notAvail != null) {
+      // console.log('REGISTER, user already exist')
       res.status(400).send({
+        status: "FAILED",
         message: "Alamat Email sudah digunakan",
       });
-      return;
+      return; 
     }
+
+    // console.log('REGISTER, user new')
 
     /** add email if not exists */
     userService
@@ -70,6 +93,7 @@ class userController {
       })
       .catch((err) => {
         res.status(422).json({
+          status: "FAILED",
           message: err.message,
         });
       });
@@ -80,20 +104,33 @@ class userController {
       const email = req.body.email.toLowerCase()
       const password = req.body.password
 
+      console.log('Login Starts')
+
       /**  check email if user existed */
-      const User = await userService.findByEmail(email)
+      // const User = await userService.findByEmail(email);
+      const User = await users.findOne({
+        where: { email },
+      });
+
       if (!User) {
+        // console.log('LOGIN, email not found');
         res.status(404).json({ status: "FAILED", message: "Email not found" });
         return
       }
 
+      // console.log('LOGIN, user found')
+      // console.log('user data, '+User.password);
+
       /**  password checking */
-      const isPasswordCorrect = await jwtAuth.checkPassword(User.password, password)
+      const isPasswordCorrect = await jwtAuth.checkPassword(User.password, password);
 
       if (!isPasswordCorrect) {
+        console.log('LOGIN, pass wrong');
         res.status(401).json({ status: "FAILED", message: "Password incorrect" });
         return
       }
+
+      // console.log('LOGIN, pass correct')
 
       /** Creating toke  */
       const token = await jwtAuth.createToken({
@@ -127,9 +164,9 @@ class userController {
 
       const tokenPayLoad = jwt.verify(token, process.env.JWT_SECRET)
 
-      console.log(tokenPayLoad)
+      // console.log(tokenPayLoad)
 
-      console.log("\n"+tokenPayLoad.id)
+      // console.log("\n"+tokenPayLoad.id)
 
       req.Users = JSON.parse(
         JSON.stringify(await userService.findByEmail(tokenPayLoad.email))

@@ -2,9 +2,14 @@ const { users } = require("../models");
 
 module.exports = {
   repoFindEmail(email) {
-    return users.findOne({
-      where: { email },
-    });
+    try{
+      return users.findOne({
+        where: { email },
+      })
+    } catch (err) {
+      throw err.message
+    }
+    
   },
   
   repoFindPK(id) {
@@ -15,7 +20,7 @@ module.exports = {
 
   repoCreate(createArgs) {
     try {
-      console.log(`\n ${JSON.stringify(createArgs)} \n`)
+      // console.log(`\n ${JSON.stringify(createArgs)} \n`)
       return users.create(createArgs);
     }catch (err) {
       return err.message

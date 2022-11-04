@@ -7,6 +7,15 @@ class addevController {
   static async register(req, res) {
     const {username, is_super} = req.body;
     const email = req.body.email.toLowerCase();
+
+    if (req.body.password == undefined || req.body.password == null ||req.body.password == "") {
+      return res.status(422).json({
+        status: "FAILED",
+        message: "password is empty !",
+      });
+      
+    }
+
     const password = await jwtAuth.encryptPassword(req.body.password);
 
     /**  check email is used before or not */
@@ -14,6 +23,7 @@ class addevController {
 
     if (notAvail) {
       res.status(400).send({
+        status: "FAILED",
         message: "Alamat Email sudah digunakan",
       });
       return;
@@ -33,6 +43,7 @@ class addevController {
       })
       .catch((err) => {
         res.status(422).json({
+          status: "FAILED",
           message: err.message,
         });
       });
@@ -132,7 +143,7 @@ class addevController {
       console.log("||  Get All User's Data ||");
 
       const chek = req.userss.is_super
-      console.log(chek);
+      // console.log(chek);
 
       if (chek == false || chek == "false") {
         res.status(401).json({
@@ -145,14 +156,14 @@ class addevController {
       const allUser = await addevService.listUsers();
 
       if (allUser == null || allUser == undefined) {
-        res.status(401).json({
+        res.status(422).json({
           status: "FAILED",
           message: "Data Empty / Corrupted !",
         })
         return;
       }
 
-      console.log(allUser)
+      // console.log(allUser)
 
       res.status(201).json({
         status: "OK",
@@ -160,7 +171,7 @@ class addevController {
       })
 
     }catch (err) {
-      res.status(404).json({
+      res.status(422).json({
         status: "FAILED",
         message: err.message,
       })

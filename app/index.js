@@ -6,8 +6,11 @@
 const express = require("express");
 const morgan = require("morgan");
 const router = require("../config/routes");
+const cors = require('cors');
 
 const app = express();
+
+app.use(cors());
 
 /** Install request logger */
 app.use(morgan("dev"));
