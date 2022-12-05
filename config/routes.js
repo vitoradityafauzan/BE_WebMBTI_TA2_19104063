@@ -8,9 +8,7 @@ const apiRouter = express.Router();
  */
 
 // ========================  ROOT ENDPOINT  =================================
-apiRouter.get('/', (req, res) => {
-  res.status(200).json({ message: "goto /api/v1/docs to read full documentation" });
-})
+apiRouter.get('/', controllers.api.v1.userController.handleRoot)
 
 
 // =====================  Authentication Process  =========================
