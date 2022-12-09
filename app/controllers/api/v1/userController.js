@@ -70,7 +70,7 @@ class userController {
 
     if (notAvail == true || notAvail != null) {
       // console.log('REGISTER, user already exist')
-      res.status(400).send({
+      res.status(422).send({
         status: "FAILED",
         message: "Alamat Email sudah digunakan",
       });
@@ -92,7 +92,7 @@ class userController {
         });
       })
       .catch((err) => {
-        res.status(422).json({
+        res.status(400).json({
           status: "FAILED",
           message: err.message,
         });
@@ -114,7 +114,7 @@ class userController {
 
       if (!User) {
         // console.log('LOGIN, email not found');
-        res.status(404).json({ status: "FAILED", message: "Email not found" });
+        res.status(422).json({ status: "FAILED", message: "Email not found" });
         return
       }
 
@@ -126,7 +126,7 @@ class userController {
 
       if (!isPasswordCorrect) {
         console.log('LOGIN, pass wrong');
-        res.status(401).json({ status: "FAILED", message: "Password incorrect" });
+        res.status(422).json({ status: "FAILED", message: "Password incorrect" });
         return
       }
 
@@ -136,13 +136,14 @@ class userController {
       const token = await jwtAuth.createToken({
         id: User.id,
         email: User.email,
+        regular: true,
         createdAt: User.createdAt,
         updatedAt: User.updatedAt,
       })
 
       res.status(201).json({
-        id: User.id,
-        email: User.email,
+        /* id: User.id,
+        email: User.email, */
         token,
         createdAt: User.createdAt,
         updatedAt: User.updatedAt,
@@ -160,31 +161,43 @@ class userController {
       console.log("\nAuthorization\n")
       const bearerToken = req.headers.authorization
       // console.log(bearerToken)
-      const token = bearerToken.split('Bearer ')[1]
-
-      const tokenPayLoad = jwt.verify(token, process.env.JWT_SECRET)
+      const token = bearerToken.split('Bearer ')[1];
+      const tokenPayLoad = jwt.verify(token, process.env.JWT_SECRET);
 
       // console.log(tokenPayLoad)
-
       // console.log("\n"+tokenPayLoad.id)
 
       req.Users = JSON.parse(
         JSON.stringify(await userService.findByEmail(tokenPayLoad.email))
       );
 
+      if (!req.Users) {
+        res.status(401).json({
+          status: "FAILED",
+          error: 'Akun tidak ditemukan'
+        })
+        return;
+      }
+
+      req.Users.regular = true;
+
       /** delete encrypted password */
-      delete req.Users.password
+      delete req.Users.password;
       next()
 
     } catch (error) {
       if (error.message.includes('jwt expired')) {
-        res.status(401).json({ status: "FAILED", message: "Token Expired" });
-        return
+        res.status(401).json({ 
+          status: "FAILED", 
+          message: "Token Expired" 
+        });
+        return;
       }
 
       res.status(401).json({
         status: "FAILED",
-        message: 'Login terlebih dahulu',
+        error: 'Login terlebih dahulu',
+        message: error.message
       })
     }
   }

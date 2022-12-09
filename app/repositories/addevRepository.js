@@ -2,9 +2,20 @@ const { addevs, users } = require("../models");
 
 module.exports = {
   repoFindEmail(email) {
-    return addevs.findOne({
-      where: { email },
-    });
+    try {
+      const result = addevs.findOne({
+        where: { email },
+      });
+
+      /* console.log(`Repo addev find email, ${JSON.stringify(result)}`); */
+
+      return result;
+
+    } catch (err) {
+      console.log(`REPO ERROR, ${err.message}`);
+      return err.message;
+
+    }
   },
 
   repoFindPK(id) {
@@ -14,11 +25,11 @@ module.exports = {
   },
 
   repoGetAllUser() {
-    return users.findAll();;
+    return users.findAll();
   },
 
   repoCreate(createArgs) {
-    console.log(`\n ${JSON.stringify(createArgs)} \n`)
-      return addevs.create(createArgs);
+    console.log(`\n ${JSON.stringify(createArgs)} \n`);
+    return addevs.create(createArgs);
   },
 };

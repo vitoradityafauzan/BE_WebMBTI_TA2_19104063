@@ -22,7 +22,7 @@ class addevController {
     const notAvail = await addevService.findByEmail(email);
 
     if (notAvail) {
-      res.status(400).send({
+      res.status(422).send({
         status: "FAILED",
         message: "Alamat Email sudah digunakan",
       });
@@ -42,7 +42,7 @@ class addevController {
         });
       })
       .catch((err) => {
-        res.status(422).json({
+        res.status(400).json({
           status: "FAILED",
           message: err.message,
         });
@@ -56,8 +56,9 @@ class addevController {
 
       /**  check email if user existed */
       const User = await addevService.findByEmail(email);
+
       if (!User) {
-        res.status(404).json({ status: "FAILED", message: "Email not found" });
+        res.status(422).json({ status: "FAILED", message: "Email not found" });
         return;
       }
 
@@ -65,7 +66,7 @@ class addevController {
       const isPasswordCorrect = await jwtAuth.checkPassword(User.password, password);
 
       if (!isPasswordCorrect) {
-        res.status(401).json({ status: "FAILED", message: "Password incorrect" });
+        res.status(422).json({ status: "FAILED", message: "Password incorrect" });
         return;
       }
 
@@ -73,17 +74,21 @@ class addevController {
       const token = await jwtAuth.createToken({
         id: User.id,
         email: User.email,
+        regular: false,
+        isSuper: User.is_super,
         createdAt: User.createdAt,
         updatedAt: User.updatedAt,
       });
 
       res.status(201).json({
-        id: User.id,
-        email: User.email,
+       /*  id: User.id,
+        email: User.email, */
         token,
+        /* isSuper: User.is_super, */
         createdAt: User.createdAt,
         updatedAt: User.updatedAt,
       });
+
     } catch (error) {
       res.status(400).json({
         status: "FAILED",
@@ -101,15 +106,30 @@ class addevController {
 
       const tokenPayLoad = jwt.verify(token, process.env.JWT_SECRET)
 
-      // console.log(tokenPayLoad)
+      // console.log(`.${tokenPayLoad.email}.`)
 
       req.userss = JSON.parse(
         JSON.stringify(await addevService.findByEmail(tokenPayLoad.email))
       );
 
+      /* req.userss = await addevService.findByEmail(tokenPayLoad.email); */
+
+      // console.log('Resul fetch email auth, ', req.userss);
+
+      if (!req.userss) {
+        res.status(401).json({
+          status: "FAILED",
+          error: 'Akun tidak ditemukan'
+        })
+        return;
+      }
+
+      req.userss.regular = false;
+
       /** delete encrypted password */
-      delete req.userss.password
-      next()
+      delete req.userss.password;
+      
+      next();
 
     } catch (error) {
       if (error.message.includes('jwt expired')) {
@@ -120,6 +140,7 @@ class addevController {
       res.status(401).json({
         status: "FAILED",
         message: 'Login terlebih dahulu',
+        pesan: error.message,
       })
     }
   }
