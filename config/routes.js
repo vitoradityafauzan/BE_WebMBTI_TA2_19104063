@@ -7,12 +7,12 @@ const apiRouter = express.Router();
  *       implementations
  */
 
-// ========================  ROOT ENDPOINT  =================================
+/** ========================  ROOT ENDPOINT  ================================= */
 apiRouter.get('/', controllers.api.v1.userController.handleRoot)
 
 
-// =====================  Authentication Process  =========================
-// -------- Regular
+/** =====  Authentication Process  ===== */
+/** -------- Regular */
 apiRouter.post(
   '/api/v1/auth/register',
   controllers.api.v1.userController.register,
@@ -29,7 +29,7 @@ apiRouter.get(
   controllers.api.v1.userController.whoAmI,
 )
 
-// -------- Admins
+/** -------- Admins */
 apiRouter.post(
   '/add3v/v1/register',
   controllers.api.v1.addevController.register,
@@ -57,6 +57,34 @@ apiRouter.get(
   controllers.api.v1.addevController.getAllUser,
 )
 
+
+/** =====  MBTI Questions Process  ===== */
+/** ------ User */
+apiRouter.get(
+  '/api/v1/mbti-questions',
+  controllers.api.v1.userController.authorize,
+  controllers.api.v1.mbtiQuestionController.getAllQuestions,
+)
+
+
+/** ----- Admin */
+apiRouter.get(
+  '/add3v/v1/all-mbti-questions',
+  controllers.api.v1.addevController.authorize,
+  controllers.api.v1.mbtiQuestionController.getAllQuestions,
+)
+
+apiRouter.post(
+  '/add3v/v1/add-mbti-question',
+  controllers.api.v1.addevController.authorize,
+  controllers.api.v1.mbtiQuestionController.addQuestion,
+)
+
+apiRouter.delete(
+  '/add3v/v1/delete-mbti-question/:code',
+  controllers.api.v1.addevController.authorize,
+  controllers.api.v1.mbtiQuestionController.deleteQuestion,
+)
  
 /**
  * TODO: Delete this, this is just a demonstration of

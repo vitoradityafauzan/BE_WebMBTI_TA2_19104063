@@ -10,26 +10,39 @@ module.exports = {
       /* console.log(`Repo addev find email, ${JSON.stringify(result)}`); */
 
       return result;
-
     } catch (err) {
       console.log(`REPO ERROR, ${err.message}`);
       return err.message;
-
     }
   },
 
   repoFindPK(id) {
-    return addevs.findOne({
-      where: { id },
-    });
+    try {
+      return addevs.findOne({
+        where: { id },
+      });
+    } catch (err) {
+      console.log(`REPO ERROR, ${err.message}`);
+      return err.message;
+    }
   },
 
   repoGetAllUser() {
-    return users.findAll();
+    try {
+      return users.findAll();
+    } catch (err) {
+      console.log(`REPO ERROR, ${err.message}`);
+      return err.message;
+    }
   },
 
   repoCreate(createArgs) {
-    console.log(`\n ${JSON.stringify(createArgs)} \n`);
-    return addevs.create(createArgs);
+    try {
+      // console.log(`\n ${JSON.stringify(createArgs)} \n`);
+      return addevs.create(createArgs);
+    } catch (err) {
+      console.log(`REPO ERROR, ${err.message}`);
+      return err.message;
+    }
   },
 };

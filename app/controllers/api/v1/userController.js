@@ -4,38 +4,6 @@ const { users } = require("../../../models");
 const userService = require("../../../services/userService")
 const jwtAuth = require("./authenticationController")
 // const axios = require('axios')
-//const Salt = 10;
- 
-/* Create token function */
-/* function createToken(data) {
-  return jwt.sign(data, process.env.JWT_SECRET || "r4h4s14", {
-    expiresIn: 2440 * 60,
-  });
-}
-
-function encryptPassword(password) {
-  return new Promise((resolve, reject) => {
-    bcrypt.hash(password, Salt, (err, encryptedPassword) => {
-      if (!!err) {
-        reject(err);
-        return;
-      }
-      resolve(encryptedPassword);
-    });
-  });
-}
-
-function checkPassword(encryptedPassword, password) {
-  return new Promise((resolve, reject) => {
-    bcrypt.compare(password, encryptedPassword, (err, isPasswordCorrect) => {
-      if (!!err) {
-        reject(err);
-        return;
-      }
-      resolve(isPasswordCorrect);
-    });
-  });
-} */
 
 class userController {
   static async register(req, res) {
@@ -45,7 +13,7 @@ class userController {
 
     // const password = await encryptPassword(req.body.password);
 
-    if (req.body.password == undefined || req.body.password == null ||req.body.password == "") {
+    if (req.body.password == undefined || req.body.password == null || req.body.password == "") {
       return res.status(422).json({
         status: "FAILED",
         message: "password is empty !",
@@ -114,7 +82,7 @@ class userController {
 
       if (!User) {
         // console.log('LOGIN, email not found');
-        res.status(422).json({ status: "FAILED", message: "Email not found" });
+        res.status(422).json({ status: "FAILED", message: "Email Not Found" });
         return
       }
 
@@ -126,7 +94,7 @@ class userController {
 
       if (!isPasswordCorrect) {
         console.log('LOGIN, pass wrong');
-        res.status(422).json({ status: "FAILED", message: "Password incorrect" });
+        res.status(422).json({ status: "FAILED", message: "Password Incorrect" });
         return
       }
 
@@ -174,7 +142,7 @@ class userController {
       if (!req.Users) {
         res.status(401).json({
           status: "FAILED",
-          error: 'Akun tidak ditemukan'
+          error: 'Account Not Found'
         })
         return;
       }
@@ -196,7 +164,7 @@ class userController {
 
       res.status(401).json({
         status: "FAILED",
-        error: 'Login terlebih dahulu',
+        error: 'Login First',
         message: error.message
       })
     }

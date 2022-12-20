@@ -11,7 +11,7 @@ class addevController {
     if (req.body.password == undefined || req.body.password == null ||req.body.password == "") {
       return res.status(422).json({
         status: "FAILED",
-        message: "password is empty !",
+        message: "password Is Empty",
       });
       
     }
@@ -24,7 +24,7 @@ class addevController {
     if (notAvail) {
       res.status(422).send({
         status: "FAILED",
-        message: "Alamat Email sudah digunakan",
+        message: "Email Already Used",
       });
       return;
     }
@@ -58,7 +58,7 @@ class addevController {
       const User = await addevService.findByEmail(email);
 
       if (!User) {
-        res.status(422).json({ status: "FAILED", message: "Email not found" });
+        res.status(422).json({ status: "FAILED", message: "Email Not Found" });
         return;
       }
 
@@ -66,7 +66,7 @@ class addevController {
       const isPasswordCorrect = await jwtAuth.checkPassword(User.password, password);
 
       if (!isPasswordCorrect) {
-        res.status(422).json({ status: "FAILED", message: "Password incorrect" });
+        res.status(422).json({ status: "FAILED", message: "Password Incorrect" });
         return;
       }
 
@@ -119,7 +119,7 @@ class addevController {
       if (!req.userss) {
         res.status(401).json({
           status: "FAILED",
-          error: 'Akun tidak ditemukan'
+          error: 'Account Not Found'
         })
         return;
       }
@@ -128,6 +128,8 @@ class addevController {
 
       /** delete encrypted password */
       delete req.userss.password;
+
+      console.log("\n AUTHENTICATION COMPLETE \n\n")
       
       next();
 
@@ -139,7 +141,7 @@ class addevController {
 
       res.status(401).json({
         status: "FAILED",
-        message: 'Login terlebih dahulu',
+        message: 'Login First',
         pesan: error.message,
       })
     }
@@ -169,7 +171,7 @@ class addevController {
       if (chek == false || chek == "false") {
         res.status(401).json({
           status: "FAILED",
-          message: "Unauthorized Access!",
+          message: "Unauthorized Access",
         })
         return;
       }
@@ -179,7 +181,7 @@ class addevController {
       if (allUser == null || allUser == undefined) {
         res.status(422).json({
           status: "FAILED",
-          message: "Data Empty / Corrupted !",
+          message: "Data Empty / Corrupted ",
         })
         return;
       }

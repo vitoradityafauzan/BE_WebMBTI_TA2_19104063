@@ -14,7 +14,7 @@ module.exports = {
   },
 
   create(reqBody) {
-    console.log(`\n ${JSON.stringify(reqBody)} \n`);
+    // console.log(`\n ${JSON.stringify(reqBody)} \n`);
     return addevRepo.repoCreate(reqBody)
   },
 };

@@ -3,3 +3,4 @@ node_modules
 .sequelizerc
 .yarnrc
 yarn.lock
+.infodb
