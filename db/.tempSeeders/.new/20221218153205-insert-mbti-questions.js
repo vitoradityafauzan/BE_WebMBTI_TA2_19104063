@@ -53,9 +53,24 @@ const pertanyaan = [
   "Do you",
   'Are you more likely to trust your',
   'Do you feel',
-  ''
-
-
+  'Which person is more to be complimented - one of',
+  'Are you inclined more to be',
+  'Is it preferable mostly to',
+  'In relationships should most things be',
+  'When the phone rings do you',
+  'Do you prize more in yourself',
+  'Are you drawn more to',
+  'Which seems the greater error',
+  'Do you see yourself as basically',
+  'Which situation appeals to you more',
+  'Are you a person that is more',
+  'Are you more inclined to be',
+  'In writings do you prefer',
+  'Is it harder for you to',
+  'Which do you wish more for yourself',
+  'Which is the greater fault',
+  'Do you prefer the',
+  'Do you tend to be more'
 ]
 
 module.exports = {

@@ -1,28 +1,16 @@
 "use strict";
 module.exports = {
   async up(queryInterface, Sequelize) {
-    await queryInterface.createTable("mbti_answers", {
-      code_a: {
+    await queryInterface.createTable("mbti_questions", {
+      code_q: {
         allowNull: false,
         autoIncrement: true,
         primaryKey: true,
         type: Sequelize.INTEGER,
       },
-      answer: {
+      question: {
         allowNull: false,
         type: Sequelize.STRING,
-      },
-      points: {
-        allowNull: false,
-        type: Sequelize.STRING,
-      },
-      code_q: {
-        allowNull: false,
-        type: Sequelize.INTEGER,
-      },
-      code_p: {
-        allowNull: false,
-        type: Sequelize.INTEGER,
       },
       createdAt: {
         allowNull: false,
@@ -35,6 +23,6 @@ module.exports = {
     });
   },
   async down(queryInterface, Sequelize) {
-    await queryInterface.dropTable("mbti_answers");
+    await queryInterface.dropTable("mbti_questions");
   },
 };
