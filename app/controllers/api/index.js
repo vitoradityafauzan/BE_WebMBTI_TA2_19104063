@@ -1,6 +1,6 @@
 /**
  * @file contains entry point of controllers api module
- * @author Fikri Rahmat Nurhidayat
+ * @author Vito Raditya Fauzan
  */
 
 const main = require("./main");

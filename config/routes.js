@@ -63,28 +63,61 @@ apiRouter.get(
 apiRouter.get(
   '/api/v1/mbti-questions',
   controllers.api.v1.userController.authorize,
-  controllers.api.v1.mbtiQuestionController.getAllQuestions,
+  controllers.api.v1.mbtiTestController.getAllQuestions,
 )
 
 
 /** ----- Admin */
 apiRouter.get(
-  '/add3v/v1/all-mbti-questions',
-  controllers.api.v1.addevController.authorize,
-  controllers.api.v1.mbtiQuestionController.getAllQuestions,
+  '/add3v/v1/all-mbti-questions',/* 
+  controllers.api.v1.addevController.authorize, */
+  controllers.api.v1.mbtiTestController.getAllQuestions,
 )
 
 apiRouter.post(
   '/add3v/v1/add-mbti-question',
   controllers.api.v1.addevController.authorize,
-  controllers.api.v1.mbtiQuestionController.addQuestion,
+  controllers.api.v1.mbtiTestController.addQuestion,
 )
 
 apiRouter.delete(
   '/add3v/v1/delete-mbti-question/:code',
   controllers.api.v1.addevController.authorize,
-  controllers.api.v1.mbtiQuestionController.deleteQuestion,
+  controllers.api.v1.mbtiTestController.deleteQuestion,
 )
+
+/** =====  MBTI Answers Process  ===== */
+/** ------ User */
+apiRouter.get(
+  '/api/v1/mbti-answers',
+  controllers.api.v1.userController.authorize,
+  controllers.api.v1.mbtiTestController.getAllAnswers,
+)
+
+apiRouter.get(
+  '/api/v1/list-tests',
+  controllers.api.v1.mbtiTestController.getAllTests,
+)
+
+
+/** ----- Admin */
+apiRouter.get(
+  '/add3v/v1/all-mbti-answers',/* 
+  controllers.api.v1.addevController.authorize, */
+  controllers.api.v1.mbtiTestController.getAllAnswers,
+)
+
+/* apiRouter.post(
+  '/add3v/v1/add-mbti-answer',
+  controllers.api.v1.addevController.authorize,
+  controllers.api.v1.mbtiTestController.addAnswer,
+)
+
+apiRouter.delete(
+  '/add3v/v1/delete-mbti-answer/:code',
+  controllers.api.v1.addevController.authorize,
+  controllers.api.v1.mbtiTestController.deleteAnswer,
+) */
  
 /**
  * TODO: Delete this, this is just a demonstration of

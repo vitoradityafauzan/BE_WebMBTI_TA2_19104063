@@ -1,15 +1,15 @@
 /**
  * @file contains entry point of controllers api v1 module
- * @author Fikri Rahmat Nurhidayat
+ * @author Vito Raditya Fauzan
  */
 
 // const postController = require("./postController");
 const userController = require("./userController")
 const addevController = require("./addevController")
-const mbtiQuestionController = require("./mbtiQuestionController")
+const mbtiTestController = require("./mbtiTestController")
 
 module.exports = {
   userController,
   addevController,
-  mbtiQuestionController,
+  mbtiTestController,
 };

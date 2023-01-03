@@ -13,7 +13,7 @@ module.exports = (sequelize, DataTypes) => {
       // define association here
       mbti_answers.hasMany(models.users_test_answers, { foreignKey: 'code_a' })
       mbti_answers.belongsTo(models.mbti_question, { foreignKey: 'code_q' })
-      mbti_answers.belongsTo(models.mbti_personality, { foreignKey: 'code_p' })
+     /*  mbti_answers.belongsTo(models.mbti_personality, { foreignKey: 'code_p' }) */
     }
   }
   mbti_answers.init({
@@ -24,8 +24,8 @@ module.exports = (sequelize, DataTypes) => {
     },
     answer: DataTypes.STRING,
     points: DataTypes.STRING,
-    code_q: DataTypes.INTEGER,
-    code_p: DataTypes.INTEGER
+    code_q: DataTypes.INTEGER/* ,
+    code_p: DataTypes.INTEGER */
   }, {
     sequelize,
     modelName: 'mbti_answers',

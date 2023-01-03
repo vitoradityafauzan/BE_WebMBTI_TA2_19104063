@@ -1,6 +1,6 @@
 /**
  * @file Bootstrap express.js server
- * @author Fikri Rahmat Nurhidayat
+ * @author Vito Raditya Fauzan
  */
 
 const express = require("express");
