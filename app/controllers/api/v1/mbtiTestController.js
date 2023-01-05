@@ -210,6 +210,37 @@ class mbtiTestController {
       });
     }
   }
+
+  static async setUserCharacteristic(req, res) {
+    try {
+      // console.log("||  Get All Answers ||");
+
+      /** fetch data from model */
+      const allChar = await mbtiTestService.listsChar();
+      
+      if (allChar == null || allChar == undefined ) {
+        // console.log("runs, ", typeof allQuestions);
+        res.status(422).json({
+          status: "FAILED",
+          message: "Data Empty / Corrupted !",
+        });
+        return;
+      }
+
+      // console.log(allQuestions)
+
+      /** send data to respond */
+      res.status(201).json({
+        status: "OK",
+        data: listTests,
+      });
+    } catch (err) {
+      res.status(422).json({
+        status: "FAILED",
+        message: err.message,
+      });
+    }
+  }
 }
 
 module.exports = mbtiTestController;

@@ -31,5 +31,13 @@ module.exports = {
 
   deleteA(q) {
     return mbtiQ.repoDeleteAnswer(q);
+  },
+
+  listsChar() {
+    return mbtiQ.repoListChar();
+  },
+
+  submitAnswer(id, char) {
+    return mbtiQ.repoSubmitAnswer(id, char);
   }
 }

@@ -1,4 +1,4 @@
-const { mbti_question, mbti_answers } = require("../models");
+const { mbti_question, mbti_answers, mbti_personality, users_test_answers } = require("../models");
 
 module.exports = {
   repoCreateQuestion(createArgs) {
@@ -95,6 +95,24 @@ module.exports = {
     } catch (err) {
       console.log(`REPO ERROR, ${err.message}`);
       return err.message;
+      
+    }
+  },
+
+  repoListChar() {
+    try {
+      return mbti_personality.findAll();
+      
+    } catch (error) {
+      console.log(`REPO ERROR, ${err.message}`);
+      return err.message;
+    }
+  },
+
+  repoSubmitAnswer(id, char) {
+    try {
+      return users_test_answers.create({id_user: id, testVia: 'mbti', code_a: char})
+    } catch (error) {
       
     }
   }
