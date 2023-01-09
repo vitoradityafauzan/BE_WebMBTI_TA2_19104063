@@ -99,6 +99,11 @@ apiRouter.get(
   controllers.api.v1.mbtiTestController.getAllTests,
 )
 
+apiRouter.post(
+  '/api/v1/submit-test-answers',
+  controllers.api.v1.mbtiTestController.setUserCharacteristic,
+)
+
 
 /** ----- Admin */
 apiRouter.get(
@@ -118,6 +123,11 @@ apiRouter.delete(
   controllers.api.v1.addevController.authorize,
   controllers.api.v1.mbtiTestController.deleteAnswer,
 ) */
+
+apiRouter.get(
+  '/api/v1/list-uni',
+  controllers.api.v1.mbtiTestController.getAllUni,
+)
  
 /**
  * TODO: Delete this, this is just a demonstration of

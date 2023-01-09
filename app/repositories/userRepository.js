@@ -1,11 +1,17 @@
-const { users } = require("../models");
+const { users, users_test_answers } = require("../models");
 
 module.exports = {
   repoFindEmail(email) {
     try {
-      return users.findOne({
+      let result = users.findOne({
         where: { email },
       });
+
+     /*  console.log('user repo, ')
+      console.log(result) */
+
+      return result;
+
     } catch (err) {
       throw err.message;
     }

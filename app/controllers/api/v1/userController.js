@@ -135,9 +135,12 @@ class userController {
       // console.log(tokenPayLoad)
       // console.log("\n"+tokenPayLoad.id)
 
+      const temp = await userService.findByEmail(tokenPayLoad.email)
+
+      // console.log('user contr, ', temp)
+
       req.Users = JSON.parse(
-        JSON.stringify(await userService.findByEmail(tokenPayLoad.email))
-      );
+        JSON.stringify(temp));
 
       if (!req.Users) {
         res.status(401).json({

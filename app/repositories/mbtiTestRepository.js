@@ -1,4 +1,4 @@
-const { mbti_question, mbti_answers, mbti_personality, users_test_answers } = require("../models");
+const { mbti_question, mbti_answers, mbti_personality, users_test_answers, Universitas, Prodi_List } = require("../models");
 
 module.exports = {
   repoCreateQuestion(createArgs) {
@@ -111,9 +111,30 @@ module.exports = {
 
   repoSubmitAnswer(id, char) {
     try {
-      return users_test_answers.create({id_user: id, testVia: 'mbti', code_a: char})
+      return users_test_answers.create({id_user: id, testVia: 'mbti', result: char})
     } catch (error) {
+      console.log(`REPO ERROR, ${err.message}`);
+      return err.message;
+    }
+  },
+
+  repoListUni() {
+    try {
+      return Universitas.findAll();
       
+    } catch (error) {
+      console.log(`REPO ERROR, ${err.message}`);
+      return err.message;
+    }
+  },
+
+  repoListProdi() {
+    try {
+      return Prodi_List.findAll();
+      
+    } catch (error) {
+      console.log(`REPO ERROR, ${err.message}`);
+      return err.message;
     }
   }
 

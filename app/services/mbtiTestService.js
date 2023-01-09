@@ -39,5 +39,15 @@ module.exports = {
 
   submitAnswer(id, char) {
     return mbtiQ.repoSubmitAnswer(id, char);
+  },
+
+  listUni() {
+    /* const result = {universitas: mbtiQ.repoListUni(), prodi: mbtiQ.repoListProdi()}
+    return result; */
+    return mbtiQ.repoListUni();
+  },
+
+  listProdi() {
+    return mbtiQ.repoListProdi();
   }
 }

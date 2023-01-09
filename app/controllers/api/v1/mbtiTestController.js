@@ -1,3 +1,5 @@
+const { use } = require("../../../../config/routes");
+const { listUni } = require("../../../services/mbtiTestService");
 const mbtiTestService = require("../../../services/mbtiTestService");
 
 class mbtiTestController {
@@ -212,14 +214,51 @@ class mbtiTestController {
   }
 
   static async setUserCharacteristic(req, res) {
+      console.log("||  SET USER's Char ||, ", req.body.userId);
+      
+      /** checking request data */
+      if (req.body.userId === null || req.body.userId === undefined || req.body.charac === null || req.body.charac === undefined) {
+        res.status(422).json({
+          status: "FAILED",
+          message: 'Request Data Not Found / Corrupted!',
+        });
+        return;
+      }
+
+      /** catching request data */
+      const userId = req.body.userId;
+      const charType = req.body.charac;
+
+      console.log(`mbti controller, after got req data, ${typeof userId}`)
+
+    /** send data to model */
+    mbtiTestService
+      .submitAnswer( userId, charType )
+      .then(async () => {
+        res.status(201).json({
+          status: "OK",
+          message: "Result Submitted Successfully",
+        });
+      })
+      .catch((err) => {
+        res.status(400).json({
+          status: "FAILED",
+          message: err.message,
+        });
+      });
+  }
+
+  static async getAllUni(req, res) {
     try {
       // console.log("||  Get All Answers ||");
 
       /** fetch data from model */
-      const allChar = await mbtiTestService.listsChar();
+      const uniList = await mbtiTestService.listUni();
       
-      if (allChar == null || allChar == undefined ) {
-        // console.log("runs, ", typeof allQuestions);
+      const prodiList = await mbtiTestService.listProdi();
+      
+      if (uniList == null || uniList == undefined || prodiList == null || prodiList == undefined ) {
+        // console.log("runs, ", typeof uniList);
         res.status(422).json({
           status: "FAILED",
           message: "Data Empty / Corrupted !",
@@ -227,12 +266,12 @@ class mbtiTestController {
         return;
       }
 
-      // console.log(allQuestions)
+      console.log(uniList)
 
       /** send data to respond */
       res.status(201).json({
         status: "OK",
-        data: listTests,
+        data: {university: uniList, prodi: prodiList},
       });
     } catch (err) {
       res.status(422).json({
